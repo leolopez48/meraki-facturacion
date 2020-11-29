@@ -101,10 +101,10 @@ class VentaController extends Controller
     }
 
     public function actualizarVenta(Request $request){
-        // dd($request->input('id_venta'));
-        $sta = DB::table('ventas')
-        ->where(["id_venta"=>(int)$request->input('id_venta'), "id_producto"=>(int)$request->input('id_producto')])->delete();
-        // dd($sta);
+        // -1 Debido a que está en un select y el select comienza en 1 y no en 0
+        // dd($request);
+        $sta = DB::table('ventas')->where(['id_venta'=>$request->id_venta, 'id_producto'=>$request->productoAnterior])->delete();
+
         $state = DB::table('ventas')
         ->insert([
             "id_venta"=>$request->id_venta,
@@ -114,12 +114,12 @@ class VentaController extends Controller
             'lugar_entrega'=>$request->lugarEntrega,
             'created_at'=>$request->fechaCreacion
             ]);
-            // dd($state);
+            //dd($sta, $state, $request);
         return redirect()->route('ventas');
     }
 
     public function borrarVenta(Request $request){
-        DB::table('ventas')->where(['id_venta'=>$request->id_venta, 'id_producto'=>$request->id_producto])->delete();
+        DB::table('ventas')->where(['id_venta'=>$request->id_venta, 'id_producto'=>$request->producto])->delete();
         //Borar Venta
         return redirect()->route('ventas');
     }

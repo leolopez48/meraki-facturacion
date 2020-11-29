@@ -21,11 +21,19 @@
                 @endforeach
             </select>
             <label class="pt-3" for="">Producto</label>
+            <select name="productoAnterior" class="form-control" style="display: none;">
+                @foreach ($productos as $producto)
+                @if($venta[0]->producto == $producto->nombre)
+                <option value="{{ $producto->id_producto }}" selected>{{ $producto->nombre }}
+                </option>
+                @else
+                <option value="{{ $producto->id_producto }}">{{ $producto->nombre }}
+                </option>
+                @endif
+                @endforeach
+            </select>
             <select name="producto" class="form-control">
                 @foreach ($productos as $producto)
-                <option value="{{ $producto->id_producto }}">{{ $producto->nombre }}</option>
-                @php
-                @endphp
                 @if($venta[0]->producto == $producto->nombre)
                 <option value="{{ $producto->id_producto }}" selected>{{ $producto->nombre }}
                 </option>

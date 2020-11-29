@@ -5,6 +5,8 @@
     <h1>Eliminar Venta</h1>
     <div class="col-md-6 offset-md-3">
         <form class="ml-2" action="{{ route('borrarVenta') }}" method="post">
+            <label for="">ID</label>
+            <input class="form-control" type="number" name="id_venta" step="1" value="{{ $venta[0]->id_venta }}">
             <label for="">Cliente</label>
             <select name="cliente" class="form-control">
                 @foreach ($clientes as $cliente)
@@ -20,9 +22,6 @@
             <label class="pt-3" for="">Producto</label>
             <select name="producto" class="form-control">
                 @foreach ($productos as $producto)
-                <option value="{{ $producto->id_producto }}">{{ $producto->nombre }}</option>
-                @php
-                @endphp
                 @if($venta[0]->producto == $producto->nombre)
                 <option value="{{ $producto->id_producto }}" selected>{{ $producto->nombre }}
                 </option>
