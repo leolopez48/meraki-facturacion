@@ -23,6 +23,8 @@ Route::group(['middleware' => 'auth'], function () {
     //Clientes
     Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes');
     Route::post('/buscarCliente', [ClienteController::class, 'buscarCliente'])->name('buscarCliente');
+    Route::get('/borrarCliente/{id_cliente}', [ClienteController::class, 'borrarCliente'])->name('borrarCliente');
+    Route::post('/guardarCliente', [ClienteController::class, 'guardarCliente'])->name('guardarCliente');
 });
 
 Auth::routes();

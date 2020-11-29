@@ -14,8 +14,8 @@
 
     <div class="row pb-3">
         <div class="form-inline">
-            <button class="btn btn-primary" href="#"><i class="fas fa-plus" data-toggle="modal"
-                    data-target="#modalAgregar" title="Agregar"></i></button>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregar"><i class="fas fa-plus"
+                    title="Agregar"></i></button>
             <form action="{{ route('clientes') }}" method="get">
                 <button type="submit" class="btn btn-success ml-2" data-toggle="tooltip" title="Refrescar">
                     <i class="fas fa-redo-alt"></i>
@@ -29,7 +29,7 @@
             <th>ID</th>
             <th>Nombre</th>
             <th>Apellidos</th>
-            <!-- <th>Telefono</th> -->
+            <th>Telefono</th>
             <th>Acciones</th>
         </thead>
         <tbody>
@@ -38,10 +38,12 @@
                 <td>{{ $cliente->id_cliente }}</td>
                 <td>{{ $cliente->nombre }}</td>
                 <td>{{ $cliente->apellidos }}</td>
-                <!-- <td>{{-- $cliente->telefono --}}</td> -->
+                <td>{{ $cliente->telefono }}</td>
                 <td>
                     <a class="btn btn-secondary" href="{{ route('home') }}"><i class="fas fa-edit"></i></a>
-                    <a class="btn btn-danger" href="{{ route('home') }}"><i class="fas fa-trash"></i></a>
+                    <a class="btn btn-danger"
+                        href="{{ route('borrarCliente', ['id_cliente'=>$cliente->id_cliente ]) }}]"><i
+                            class="fas fa-trash"></i></a>
                 </td>
             </tr>
             @endforeach
@@ -59,21 +61,22 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form action="{{ route('home') }}" method="post">
+            <form action="{{ route('guardarCliente') }}" method="post">
+                @csrf
+                <div class="modal-body">
                     <label for="">Nombre</label>
                     <input class="form-control" type="text" name="nombre" id="">
                     <label class="pt-3" for="">Apellidos</label>
                     <input class="form-control" type="text" name="apellidos" id="">
                     <hr>
                     <label for="">Teléfono</label>
-                    <input class="form-control" type="text" name="telefono" id="">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar</button>
-            </div>
+                    <input class="form-control" type="text" name="telefono" id="" pattern="[0-9]{4}-[0-9]{4}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
