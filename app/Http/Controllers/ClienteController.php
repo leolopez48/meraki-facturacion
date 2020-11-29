@@ -27,13 +27,6 @@ class ClienteController extends Controller
         return view('clientes', compact('clientes'));
     }
 
-    public function borrarCliente(Request $request){
-        DB::table('telefonos')->where(['id_cliente'=>$request->id_cliente])->delete();
-        DB::table('clientes')->where(['id_cliente'=>$request->id_cliente])->delete();
-        //Borar Venta
-        return redirect()->route('clientes');
-    }
-
     public function guardarCliente(Request $request){
 
         $cliente = new Cliente();
@@ -48,6 +41,39 @@ class ClienteController extends Controller
         $tel->save();
 
         return redirect()->route('clientes');
+    }
+
+    public function editarCliente(Request $request){
+        $cliente = DB::table('clientes')
+        ->where(["clientes.id_cliente"=>(int)$request->id_cliente])
+        ->join('telefonos', 'clientes.id_cliente', '=', 'telefonos.id_cliente')
+        ->get();
+        return view('clientes.editar', compact('cliente'));
+    }
+
+    public function actualizarCliente(Request $request){
+        DB::table('telefonos')
+        ->where(["id_cliente"=>$request->id_cliente])
+        ->update(['telefono'=>$request->telefono]);
+        DB::table('clientes')
+        ->where(["id_cliente"=>$request->id_cliente])
+        ->update(['nombre'=>$request->nombre, 'apellidos'=>$request->apellidos]);
+        return redirect()->route('clientes');
+    }
+
+    public function borrarCliente(Request $request){
+        DB::table('telefonos')->where(['id_cliente'=>$request->id_cliente])->delete();
+        DB::table('clientes')->where(['id_cliente'=>$request->id_cliente])->delete();
+        //Borar Venta
+        return redirect()->route('clientes');
+    }
+
+    public function eliminarCliente(Request $request){
+        $cliente = DB::table('clientes')
+        ->where(["clientes.id_cliente"=>(int)$request->id_cliente])
+        ->join('telefonos', 'clientes.id_cliente', '=', 'telefonos.id_cliente')
+        ->get();
+        return view('clientes.delete', compact('cliente'));
     }
 
 }

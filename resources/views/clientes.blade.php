@@ -40,9 +40,11 @@
                 <td>{{ $cliente->apellidos }}</td>
                 <td>{{ $cliente->telefono }}</td>
                 <td>
-                    <a class="btn btn-secondary" href="{{ route('home') }}"><i class="fas fa-edit"></i></a>
+                    <a class="btn btn-secondary"
+                        href="{{ route('editarCliente', [ 'id_cliente'=>$cliente->id_cliente ]) }}"><i
+                            class="fas fa-edit"></i></a>
                     <a class="btn btn-danger"
-                        href="{{ route('borrarCliente', ['id_cliente'=>$cliente->id_cliente ]) }}]"><i
+                        href="{{ route('eliminarCliente', [ 'id_cliente'=>$cliente->id_cliente ]) }}]"><i
                             class="fas fa-trash"></i></a>
                 </td>
             </tr>
@@ -81,4 +83,5 @@
     </div>
 </div>
 <!-- Fin modal Agregar -->
+
 @endsection
