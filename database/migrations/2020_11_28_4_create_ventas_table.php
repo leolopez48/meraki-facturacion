@@ -17,9 +17,10 @@ class CreateVentasTable extends Migration
             $table->integer('id_venta');
             $table->unsignedBigInteger('id_cliente');
             $table->unsignedBigInteger('id_producto');
-            $table->date('fecha_entrega');
-            $table->string('lugar_entrega', 150);
+            $table->date('fecha_entrega')->nullable();
+            $table->string('lugar_entrega', 150)->nullable();
             $table->integer('cantidad');
+            $table->double('total')->nullable();
             $table->timestamps();
             $table->foreign('id_cliente')->references('id_cliente')->on('clientes');
             $table->foreign('id_producto')->references('id_producto')->on('productos');

@@ -47,10 +47,10 @@
                             <a class="nav-link" href="{{ route('clientes') }}">Clientes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">Ventas</a>
+                            <a class="nav-link" href="{{ route('ventas') }}">Ventas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">Productos</a>
+                            <a class="nav-link" href="{{ route('productos') }}">Productos</a>
                         </li>
 
                     </ul>

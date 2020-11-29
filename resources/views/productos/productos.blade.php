@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="container">
-    <h1 class="pt-2">Clientes</h1>
+    <h1 class="pt-2">Productos</h1>
 
-    <form action="{{ route('buscarCliente') }}" method="POST">
+    <form action="{{ route('buscarProducto') }}" method="POST">
         @csrf
         <div class="form-inline offset-md-3 mb-3">
             <input class="form-control col-md-8" type="text" name="buscar" placeholder="Busca por nombre o ID">
@@ -16,11 +16,9 @@
         <div class="form-inline">
             <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregar"><i class="fas fa-plus"
                     title="Agregar"></i></button>
-            <form action="{{ route('clientes') }}" method="get">
-                <button type="submit" class="btn btn-success ml-2" data-toggle="tooltip" title="Refrescar">
-                    <i class="fas fa-redo-alt"></i>
-                </button>
-            </form>
+            <a href="{{ route('productos') }}" class="btn btn-success ml-2" data-toggle="tooltip" title="Refrescar">
+                <i class="fas fa-redo-alt"></i>
+            </a>
         </div>
     </div>
 
@@ -28,23 +26,23 @@
         <thead>
             <th>ID</th>
             <th>Nombre</th>
-            <th>Apellidos</th>
-            <th>Telefono</th>
+            <th>Precio </th>
+            <th>Descuento</th>
             <th>Acciones</th>
         </thead>
         <tbody>
-            @foreach ($clientes as $cliente)
+            @foreach ($productos as $producto)
             <tr>
-                <td>{{ $cliente->id_cliente }}</td>
-                <td>{{ $cliente->nombre }}</td>
-                <td>{{ $cliente->apellidos }}</td>
-                <td>{{ $cliente->telefono }}</td>
+                <td>{{ $producto->id_producto }}</td>
+                <td>{{ $producto->nombre }}</td>
+                <td>${{ number_format($producto->precio, 2) }}</td>
+                <td>{{ $producto->descuento }}</td>
                 <td>
                     <a class="btn btn-secondary"
-                        href="{{ route('editarCliente', [ 'id_cliente'=>$cliente->id_cliente ]) }}"><i
+                        href="{{ route('editarProducto', [ 'id_producto'=>$producto->id_producto ]) }}"><i
                             class="fas fa-edit"></i></a>
                     <a class="btn btn-danger"
-                        href="{{ route('eliminarCliente', [ 'id_cliente'=>$cliente->id_cliente ]) }}]"><i
+                        href="{{ route('eliminarProducto', [ 'id_producto'=>$producto->id_producto ]) }}]"><i
                             class="fas fa-trash"></i></a>
                 </td>
             </tr>
@@ -58,21 +56,20 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Agregar cliente</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Agregar producto</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('guardarCliente') }}" method="post">
+            <form action="{{ route('guardarProducto') }}" method="post">
                 @csrf
                 <div class="modal-body">
                     <label for="">Nombre</label>
                     <input class="form-control" type="text" name="nombre" id="">
-                    <label class="pt-3" for="">Apellidos</label>
-                    <input class="form-control" type="text" name="apellidos" id="">
-                    <hr>
-                    <label for="">Teléfono</label>
-                    <input class="form-control" type="text" name="telefono" id="" pattern="[0-9]{4}-[0-9]{4}">
+                    <label class="pt-3" for="">Descuento</label>
+                    <input class="form-control" type="number" name="descuento" step="0.1">
+                    <label class="pt-3" for="">Precio</label>
+                    <input class="form-control" type="number" name="precio" step="0.1">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

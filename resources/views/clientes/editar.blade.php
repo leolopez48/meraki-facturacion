@@ -14,7 +14,7 @@
             <input class="form-control" type="text" name="apellidos" value="{{ $cliente[0]->apellidos }}">
             <hr>
             <label for="">Teléfono</label>
-            <input class="form-control" type="text" name="telefono" value="{{ $cliente[0]->telefono }}"
+            <input class="form-control" type="tel" name="telefono" value="{{ $cliente[0]->telefono }}"
                 pattern="[0-9]{4}-[0-9]{4}">
             <button type="submit" class="btn btn-primary">Guardar</button>
             <a type="button" class="btn btn-secondary m-3" href="{{ route('clientes') }} ">Cancelar</a>

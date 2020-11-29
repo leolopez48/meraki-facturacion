@@ -14,17 +14,17 @@ class ClienteController extends Controller
         ->join('telefonos', 'clientes.id_cliente', '=', 'telefonos.id_cliente')
         ->get();
 
-        return view('clientes', compact('clientes'));
+        return view('clientes.clientes', compact('clientes'));
     }
 
     public function buscarCliente(Request $request){
         $clientes = DB::table('clientes')
-        ->where(['clientes.nombre'=>$request->buscar])
+        ->where('clientes.nombre', 'like', '%'.$request->buscar.'%')
         ->orWhere(['clientes.id_cliente'=>$request->buscar])
-        ->orWhere(['clientes.apellidos'=>$request->buscar])
+        ->orWhere('clientes.nombre', 'like', '%'.$request->buscar.'%')
         ->join('telefonos', 'clientes.id_cliente', '=', 'telefonos.id_cliente')
         ->get();
-        return view('clientes', compact('clientes'));
+        return view('clientes.clientes', compact('clientes'));
     }
 
     public function guardarCliente(Request $request){
