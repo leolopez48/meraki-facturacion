@@ -30,13 +30,16 @@ class VentaController extends Controller
         $ventas = DB::table('ventas')
         ->select('ventas.id_venta', 'clientes.nombre as nombreCliente', 'clientes.apellidos as apellidoCliente',
         'productos.precio', 'ventas.created_at', 'ventas.lugar_entrega',
-        'productos.nombre as producto', 'productos.descuento', 'ventas.cantidad')
+        'productos.nombre as producto', 'productos.descuento', 'ventas.cantidad', 'productos.id_producto')
         ->join('clientes', 'ventas.id_cliente', '=', 'clientes.id_cliente')
         ->join('productos', 'ventas.id_producto', '=', 'productos.id_producto')
         ->where(['ventas.id_venta'=>$request->buscar])
         ->orWhere('clientes.nombre', 'like', '%'.$request->buscar.'%')
         ->get();
-        return view('ventas.ventas', compact('ventas'));
+
+        $clientes = DB::table('clientes')->get();
+        $productos = DB::table('productos')->get();
+        return view('ventas.ventas', compact('ventas', 'clientes', 'productos'));
     }
 
     public function guardarVenta(Request $request){

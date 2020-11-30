@@ -18,9 +18,6 @@ use App\Http\Controllers\VentaController;
 */
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', function () {
-        return view('home');
-    });
 
     //Clientes
     Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes');
@@ -50,6 +47,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/editarVenta/{id_venta}/{id_producto}', [VentaController::class, 'editarVenta'])->name('editarVenta');
     Route::post('/actualizarVenta', [VentaController::class, 'actualizarVenta'])->name('actualizarVenta');
     Route::get('/facturacion/{id_venta}', [VentaController::class, 'facturacion'])->name('facturacion');
+
+    Route::get('/', function () {
+        return view('home');
+    });
 });
 
 Auth::routes();

@@ -26,7 +26,7 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md bg-light shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="{{asset('imgs/transparente.png')}}" alt="logo" height="40px">

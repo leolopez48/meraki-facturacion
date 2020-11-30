@@ -128,18 +128,21 @@
                     }
                     @endphp
                     <label for="">Cliente</label>
-                    <select name="cliente" class="form-control">
+                        <select name="cliente" class="form-control">
+                        @if(count($clientes)>0)
                         @foreach ($clientes as $cliente)
                         <option value="{{ $cliente->id_cliente }}">{{ $cliente->nombre }} {{ $cliente->apellidos }}
                         </option>
                         @endforeach
+                        @endif
                     </select>
                     <label class="pt-3" for="">Producto</label>
                     <select name="producto" class="form-control">
+                        @if(count($productos)>0))
                         @foreach ($productos as $producto)
-                        <option value="{{ $producto->id_producto }}">{{ $producto->nombre }}
-                            ${{ number_format($producto->precio,2) }}</option>
+                        <option value="{{ $producto->id_producto }}">{{ $producto->nombre }}</option>
                         @endforeach
+                        @endif
                     </select>
                     <label class="pt-3" for="">Cantidad</label>
                     <input class="form-control" type="number" name="cantidad" step="1">
