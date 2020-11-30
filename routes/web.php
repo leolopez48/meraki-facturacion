@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/agregarProducto', [VentaController::class, 'agregarProductoVenta'])->name('agregarProductoVenta');
     Route::get('/editarVenta/{id_venta}/{id_producto}', [VentaController::class, 'editarVenta'])->name('editarVenta');
     Route::post('/actualizarVenta', [VentaController::class, 'actualizarVenta'])->name('actualizarVenta');
+    Route::get('/facturacion/{id_venta}', [VentaController::class, 'facturacion'])->name('facturacion');
 });
 
 Auth::routes();

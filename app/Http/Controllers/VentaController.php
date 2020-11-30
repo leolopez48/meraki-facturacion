@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\Venta;
+use PDF;
 
 class VentaController extends Controller
 {
     public function index(){
+
         $ventas = DB::table('ventas')
         ->select('ventas.id_venta', 'clientes.nombre as nombreCliente', 'clientes.apellidos as apellidoCliente',
         'productos.precio', 'ventas.created_at', 'ventas.lugar_entrega',
@@ -24,6 +26,7 @@ class VentaController extends Controller
     }
 
     public function buscarVenta(Request $request){
+
         $ventas = DB::table('ventas')
         ->select('ventas.id_venta', 'clientes.nombre as nombreCliente', 'clientes.apellidos as apellidoCliente',
         'productos.precio', 'ventas.created_at', 'ventas.lugar_entrega',
@@ -37,7 +40,7 @@ class VentaController extends Controller
     }
 
     public function guardarVenta(Request $request){
-        // dd($request);
+
         $venta = new Venta();
         $venta->id_venta = $this->ultimoID();
         $venta->id_cliente = $request->cliente;
@@ -58,7 +61,7 @@ class VentaController extends Controller
     }
 
     public function agregarProductoVenta(Request $request){
-        // dd($request);
+
         $venta = new Venta();
         $venta->id_venta = $request->idVenta;
         $venta->id_cliente = $request->cliente;
@@ -84,7 +87,7 @@ class VentaController extends Controller
     }
 
     public function editarVenta(Request $request){
-        // dd($request->all());
+
         $venta = DB::table('ventas')
         ->select('ventas.id_venta', 'clientes.nombre as nombreCliente', 'clientes.apellidos as apellidoCliente',
         'productos.precio', 'ventas.created_at', 'ventas.lugar_entrega',
@@ -101,9 +104,14 @@ class VentaController extends Controller
     }
 
     public function actualizarVenta(Request $request){
-        // -1 Debido a que está en un select y el select comienza en 1 y no en 0
         // dd($request);
         $sta = DB::table('ventas')->where(['id_venta'=>$request->id_venta, 'id_producto'=>$request->productoAnterior])->delete();
+
+        $precio = (double)DB::table('productos')->select('precio')
+        ->where(['id_producto'=>$request->producto])
+        ->get()[0]->precio;
+
+        $total = $request->cantidad * $precio;
 
         $state = DB::table('ventas')
         ->insert([
@@ -111,8 +119,10 @@ class VentaController extends Controller
             'id_producto'=>(int)$request->producto,
             'id_cliente'=>(int)$request->cliente,
             'cantidad'=>(int)$request->cantidad,
+            'fecha_entrega'=>$request->fechaEntrega,
             'lugar_entrega'=>$request->lugarEntrega,
-            'created_at'=>$request->fechaCreacion
+            'created_at'=>$request->fechaCreacion,
+            'total'=>$total
             ]);
             //dd($sta, $state, $request);
         return redirect()->route('ventas');
@@ -139,4 +149,19 @@ class VentaController extends Controller
         $productos = DB::table('productos')->get();
         return view('ventas.delete', compact('venta', 'clientes', 'productos'));
     }
+
+    public function facturacion(Request $request){
+        $show = DB::table('ventas')
+        ->select('ventas.id_venta', 'clientes.nombre as nombreCliente', 'clientes.apellidos as apellidoCliente',
+        'productos.precio', 'ventas.created_at', 'ventas.lugar_entrega', 'productos.id_producto',
+        'productos.nombre as producto', 'productos.descuento', 'ventas.cantidad', 'ventas.fecha_entrega',
+         'ventas.total')
+        ->join('clientes', 'ventas.id_cliente', '=', 'clientes.id_cliente')
+        ->join('productos', 'ventas.id_producto', '=', 'productos.id_producto')
+        ->where(["ventas.id_venta"=>$request->id_venta])
+        ->get();
+		//dd($show);
+		$pdf = PDF::loadView('PDF.factura', compact('show'));
+		return $pdf->stream('factura.pdf');
+	}
 }

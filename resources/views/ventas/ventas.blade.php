@@ -16,8 +16,8 @@
         <div class="form-inline">
             <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregar"><i class="fas fa-plus"
                     title="Agregar"></i></button>
-            <button class="btn btn-secondary ml-2" data-toggle="modal" data-target="#modalProducto"><i class="fas fa-cart-plus"
-                    title="Agregar"></i></button>
+            <button class="btn btn-secondary ml-2" data-toggle="modal" data-target="#modalProducto"><i
+                    class="fas fa-cart-plus" title="Agregar"></i></button>
             <a href="{{ route('ventas') }}" class="btn btn-success ml-2" data-toggle="tooltip" title="Refrescar">
                 <i class="fas fa-redo-alt"></i>
             </a>
@@ -51,6 +51,8 @@
                     <a class="btn btn-danger"
                         href="{{ route('eliminarVenta', [ 'id_venta'=>$venta->id_venta, 'id_producto'=>$venta->id_producto ]) }}"><i
                             class="fas fa-trash"></i></a>
+                    <a class="btn btn-success" href="{{ route('facturacion', [ 'id_venta'=>$venta->id_venta ]) }}"><i
+                            class="fas fa-file-alt"></i></a>
                 </td>
             </tr>
             @endforeach
@@ -75,7 +77,8 @@
                     <label for="">Cliente</label>
                     <select name="cliente" class="form-control">
                         @foreach ($clientes as $cliente)
-                        <option value="{{ $cliente->id_cliente }}">{{ $cliente->nombre }} {{ $cliente->apellidos }}</option>
+                        <option value="{{ $cliente->id_cliente }}">{{ $cliente->nombre }} {{ $cliente->apellidos }}
+                        </option>
                         @endforeach
                     </select>
                     <label class="pt-3" for="">Producto</label>
@@ -119,21 +122,23 @@
                     <label class="pt-3" for="">ID Venta</label>
                     @php
                     if(count($ventas)>0){
-                        $length = count($ventas);
-                        $idVenta = $ventas[$length-1]->id_venta;
-                        echo '<input class="form-control" type="number" name="idVenta" value="'.$idVenta.'">';
+                    $length = count($ventas);
+                    $idVenta = $ventas[$length-1]->id_venta;
+                    echo '<input class="form-control" type="number" name="idVenta" value="'.$idVenta.'">';
                     }
                     @endphp
                     <label for="">Cliente</label>
                     <select name="cliente" class="form-control">
                         @foreach ($clientes as $cliente)
-                        <option value="{{ $cliente->id_cliente }}">{{ $cliente->nombre }} {{ $cliente->apellidos }}</option>
+                        <option value="{{ $cliente->id_cliente }}">{{ $cliente->nombre }} {{ $cliente->apellidos }}
+                        </option>
                         @endforeach
                     </select>
                     <label class="pt-3" for="">Producto</label>
                     <select name="producto" class="form-control">
                         @foreach ($productos as $producto)
-                        <option value="{{ $producto->id_producto }}">{{ $producto->nombre }} ${{ number_format($producto->precio,2) }}</option>
+                        <option value="{{ $producto->id_producto }}">{{ $producto->nombre }}
+                            ${{ number_format($producto->precio,2) }}</option>
                         @endforeach
                     </select>
                     <label class="pt-3" for="">Cantidad</label>
